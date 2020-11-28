@@ -61,10 +61,15 @@ public class PstToPdfConverter {
     if (folder.getContentCount() > 0) {
       depth++;
       PSTMessage email = (PSTMessage) folder.getNextChild();
+      int loop = 0;
       while (email != null) {
-        pdfDocument.addEmail(email.getSubject(), email.getBody());
+        pdfDocument.addEmail(email.getSubject(), email.getCreationTime(), email.getBody());
         email = (PSTMessage) folder.getNextChild();
-        break;
+
+        if (loop == 2) {
+          break;
+        }
+        loop++;
       }
       pdfDocument.close();
       depth--;
